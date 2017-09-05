@@ -1,6 +1,6 @@
 {
-  "name": "Preact PWA",
-  "short_name": "Preact PWA",
+  "name": "Pipe Analyzer",
+  "short_name": "Pipe Analyzer",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",
