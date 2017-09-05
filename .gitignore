@@ -1,0 +1,10 @@
+project.lock.json
+.DS_Store
+node_modules
+
+# Visual Studio Code
+.vscode
+
+# Build results
+build/
+
