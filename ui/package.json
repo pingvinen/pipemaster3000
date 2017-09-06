@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "eslint src && preact test",
-    "start": "if-env NODE_ENV=production && npm run -s serve || npm run -s dev",
-    "build": "preact build",
-    "serve": "preact build && preact serve",
+    "start": "if-env NODE_ENV=production && npm run -s buildAndServe || npm run -s dev",
+    "build": "preact build --no-prerender",
+    "buildAndServe": "preact build --no-prerender && preact serve",
+    "serve": "http-server build/ --utc --robots -p 8080 -d 0 --gzip",
     "dev": "preact watch"
   },
   "keywords": [],
@@ -23,6 +24,7 @@
     "preact-cli": "^1.4.1"
   },
   "dependencies": {
+    "http-server": "^0.10.0",
     "preact": "^8.2.5",
     "preact-compat": "^3.17.0",
     "preact-router": "^2.5.7",
