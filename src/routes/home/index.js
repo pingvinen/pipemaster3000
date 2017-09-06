@@ -1,7 +1,8 @@
 import { h, Component } from 'preact';
-import {Sigma, RandomizeNodePositions, RelativeSize, NodeShapes, EdgeShapes} from 'react-sigma';
-import {NOverlap} from 'react-sigma/lib/NOverlap';
+import Graph from 'react-graph-vis';
+import SelectedNodeInfo from './components/SelectedNodeInfo';
 import style from './style';
+
 
 const messageTraces = [
 	{
@@ -70,14 +71,18 @@ const messageTraces = [
 ];
 
 const myGraph = {
-	nodes:
-	[
-		{id:"n1", label:"Alice"},
-		{id:"n2", label:"Rabbit"}
+	nodes: [
+		{id: 1, label: 'Node 1', color: '#e04141'},
+		{id: 2, label: 'Node 2', color: '#e09c41'},
+		{id: 3, label: 'Node 3', color: '#e0df41'},
+		{id: 4, label: 'Node 4', color: '#7be041'},
+		{id: 5, label: 'Node 5', color: '#41e0c9'}
 	],
-	edges:
-	[
-		{id:"e1",source:"n1",target:"n2",label:"SEES"}
+	edges: [
+		{from: 1, to: 2},
+		{from: 1, to: 3},
+		{from: 2, to: 4},
+		{from: 2, to: 5}
 	]
 };
 
@@ -86,10 +91,53 @@ export default class Home extends Component {
 		super();
 		this.onClickNode = this.onClickNode.bind(this);
 		this.getGraph = this.getGraph.bind(this);
+
+		this.state = {
+			lookup: {},
+			selected: {
+				component: '',
+				received: '',
+				sent: ''
+			}
+		};
 	}
 
 	onClickNode(e) {
+		if (!e.nodes || e.nodes.length == 0) {
+			// user clicked something other than a node
+			this.setState({
+				selected: {
+					component: '',
+					received: '',
+					sent: ''
+				}
+			});
+			return;
+		}
+		
 		console.log(e);
+
+		const nodeInfo = this.state.lookup[e.nodes[0]];
+
+		console.log(nodeInfo);
+
+		this.setState({
+			selected: {
+				component: nodeInfo.component,
+				received: nodeInfo.received,
+				sent: nodeInfo.sent
+			}
+		});
+	}
+
+	setLookup(node, key, value) {
+		const state = this.state;
+
+		if (!state.lookup[node]) {
+			state.lookup[node] = {};
+		}
+
+		state.lookup[node][key] = value;
 	}
 
 	getNodeId(component) {
@@ -100,22 +148,20 @@ export default class Home extends Component {
 		const nodes = {};
 		const edges = {};
 
-		let x = 0;
-		let y = 0;
-
 		// make nodes
 		traces.forEach(t => {
-			if (!nodes[t.sender]) {
-				x += 2000;
-				y += 2;
+			const nodeId = this.getNodeId(t.sender);
 
+			if (!nodes[t.sender]) {
 				nodes[t.sender] = {
-					id: this.getNodeId(t.sender),
-					label: t.sender,
-					x,
-					y
+					id: nodeId,
+					label: t.sender
 				};
 			}
+
+			// make lookup
+			this.setLookup(nodeId, 'component', t.sender);
+			this.setLookup(nodeId, t.action, t.payload);
 		});
 
 		// make edges
@@ -130,10 +176,8 @@ export default class Home extends Component {
 
 				if (!edges[id]) {
 					edges[id] = {
-						id,
-						source: this.getNodeId(fromNode),
-						target: this.getNodeId(toNode),
-						label: id
+						from: this.getNodeId(fromNode),
+						to: this.getNodeId(toNode)
 					};
 				}
 			}
@@ -145,16 +189,29 @@ export default class Home extends Component {
 		};
 	}
 
-	render() {
+	render(props, state) {
 		let graph = this.getGraph(messageTraces);
-		//graph = myGraph;
+		// graph = myGraph;
 
-		const settings = {
-			clone: false,
-			verbose: true,
-			defaultLabelSize: 20,
-			minNodeSize: 15,
-			maxNodeSize: 15
+		const options = {
+			layout: {
+				hierarchical: {
+					enabled: true,
+					direction: "LR",
+					parentCentralization: false,
+					sortMethod: "directed"
+				}
+			},
+			edges: {
+				color: "#000000"
+			},
+			nodes: {
+				physics: false
+			}
+		};
+
+		const events = {
+			select: this.onClickNode
 		};
 
 		console.log(graph);
@@ -162,19 +219,17 @@ export default class Home extends Component {
 			<div class={style.home}>
 				<h1>Home</h1>
 				<p>This is the Home component.</p>
-
-				<div style="position: relative; background-color: green">
-					<Sigma
+					<Graph
 						graph={graph}
-						settings={settings}
-						renderer="canvas"
-						onClickNode={this.onClickNode}
-					>
-						<NodeShapes default="square"/>
-						<EdgeShapes default="arrow"/>
-						<RelativeSize initialSize={0} />
-					</Sigma>
-				</div>
+						options={options}
+						events={events}
+					/>
+
+					<SelectedNodeInfo
+						component={state.selected.component}
+						received={state.selected.received}
+						sent={state.selected.sent}
+					/>
 			</div>
 		);
 	}

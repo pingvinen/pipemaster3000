@@ -19,6 +19,7 @@ export default class App extends Component {
 	render() {
 		return (
 			<div id="app">
+				<link rel="stylesheet" src="/node_modules/react-vis/dist/style.css" />
 				<Header />
 				<Router onChange={this.handleRoute}>
 					<Home path="/" />
