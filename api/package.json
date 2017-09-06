@@ -2,11 +2,15 @@
   "name": "api",
   "version": "1.0.0",
   "main": "index.js",
+  "engines": {
+    "node": ">=8"
+  },
   "license": "MIT",
   "scripts": {
     "start": "node src/index.js"
   },
   "dependencies": {
-    "fastify": "^0.26.2"
+    "fastify": "^0.26.2",
+    "mongodb": "^2.2.31"
   }
 }

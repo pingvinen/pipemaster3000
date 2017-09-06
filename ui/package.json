@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": ">=8"
+  },
   "scripts": {
     "test": "eslint src && preact test",
     "start": "if-env NODE_ENV=production && npm run -s buildAndServe || npm run -s dev",

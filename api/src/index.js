@@ -1,11 +1,35 @@
 const fastify = require('fastify')();
+const {MongoClient} = require('mongodb');
+const {promisify} = require('util');
 
-fastify.get('/', (request, reply) => {
-    reply.send({ hello: 'world', at: new Date() });
-});
+const mongoUrl = process.env.MONGO_URL || "mongodb://localhost:27017/pipes";
 
-fastify.listen(3000, (err) => {
+MongoClient.connect(mongoUrl, (err, db) => {
     if (err) throw err;
 
-    console.log(`server listening on ${fastify.server.address().port}`)
+    console.log('connected to mongo');
+
+    const options = {
+        db
+    };
+
+    console.warn('TODO ensure index on traces.correlationId');
+
+    fastify.get('/', (request, reply) => {
+        reply.send({ hello: 'world', at: new Date() });
+    });
+
+    fastify.register(
+        [
+            require('./routes/pipelines/pipelines_post')
+        ],
+        options,
+        (err) => { if (err) throw err; }
+    );
+
+    fastify.listen(3000, (err) => {
+        if (err) throw err;
+    
+        console.info(`server listening on ${fastify.server.address().port}`)
+    });
 });
