@@ -1,7 +1,7 @@
 version: '2'
 
 services:
-  pipedb:
+  thedb:
     image: "mongo:3.4"
     ports:
       - "27017:27017"
