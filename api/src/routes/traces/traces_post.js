@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const traceInputModel = require('../../schemas/traceInputModel').full;
+const api500Response = require('../../schemas/api500Response').full;
 
 module.exports = function registerTracesPost(fastify, options, next) {
 
@@ -19,21 +20,7 @@ module.exports = function registerTracesPost(fastify, options, next) {
                     properties: {
                     }
                 },
-                500: {
-                    description: 'An error occurred',
-                    type: 'object',
-                    properties: {
-                        error: {
-                            type: 'object',
-                            additionalProperties: true,
-                            properties: {
-                                message: { type: 'string' },
-                                stack: { type: 'string' },
-                                name: { type: 'string' }
-                            }
-                        }
-                    }
-                }
+                500: api500Response
             }
         },
 
