@@ -10,6 +10,7 @@ module.exports = function registerTracesPost(fastify, options, next) {
         schema: {
             body: {
                 type: 'object',
+                additionalProperties: false,
                 properties: {
                     sender: { type: 'string' },
                     action: { type: 'string', enum: ['received', 'sent'] },
