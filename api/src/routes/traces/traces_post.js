@@ -32,19 +32,40 @@ module.exports = function registerTracesPost(fastify, options, next) {
 
             response: {
                 200: {
+                    description: 'OK response - i.e. empty',
+                    type: 'object',
+                    additionalProperties: false,
+                    properties: {
+                    }
+                },
+                500: {
+                    description: 'An error occurred',
                     type: 'object',
                     properties: {
-                        success: { type: 'boolean' }
+                        error: {
+                            type: 'object',
+                            additionalProperties: true,
+                            properties: {
+                                message: { type: 'string' },
+                                stack: { type: 'string' },
+                                name: { type: 'string' }
+                            }
+                        }
                     }
                 }
             }
         },
 
         handler: (request, reply) => {
-            collection.insertOne(request.body, (err, result) => {
-                if (err) throw err;
-                reply.send({success: true});
-            });
+
+            return collection.insertOne(request.body)
+                .then((_) => {
+                    return '';
+                })
+                .catch((err) => {
+                    reply.code(500);
+                    return {error: err};
+                });
         }
     });
 
