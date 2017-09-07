@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const traceInputModel = require('../../schemas/traceInputModel').full;
 
 module.exports = function registerTracesPost(fastify, options, next) {
 
@@ -8,30 +9,7 @@ module.exports = function registerTracesPost(fastify, options, next) {
         method: 'POST',
         url: '/traces',
         schema: {
-            body: {
-                type: 'object',
-                additionalProperties: false,
-                properties: {
-                    sender: { type: 'string' },
-                    action: { type: 'string', enum: ['received', 'sent'] },
-                    path: {
-                        type: 'array',
-                        items: {
-                            type: 'string',
-                            minItems: 1
-                        }
-                    },
-                    correlationId: { type: 'string' },
-                    payload: { type: 'string' }
-                },
-                required: [
-                    'sender',
-                    'action',
-                    'path',
-                    'correlationId',
-                    'payload'
-                ]
-            },
+            body: traceInputModel,
 
             response: {
                 200: {
