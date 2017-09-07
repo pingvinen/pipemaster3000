@@ -1,10 +1,10 @@
-module.exports = function registerPipelinesPost(fastify, options, next) {
+module.exports = function registerTracesPost(fastify, options, next) {
 
     const collection = options.db.collection('traces');
 
     fastify.route({
         method: 'POST',
-        url: '/pipelines',
+        url: '/traces',
         schema: {
             body: {
                 type: 'object',

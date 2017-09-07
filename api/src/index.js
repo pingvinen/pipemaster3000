@@ -21,7 +21,7 @@ MongoClient.connect(mongoUrl, (err, db) => {
 
     fastify.register(
         [
-            require('./routes/pipelines/pipelines_post')
+            require('./routes/traces/traces_post')
         ],
         options,
         (err) => { if (err) throw err; }
