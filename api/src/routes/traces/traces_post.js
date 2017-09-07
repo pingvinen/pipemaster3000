@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 module.exports = function registerTracesPost(fastify, options, next) {
 
     const collection = options.db.collection('traces');
@@ -58,7 +60,10 @@ module.exports = function registerTracesPost(fastify, options, next) {
 
         handler: (request, reply) => {
 
-            return collection.insertOne(request.body)
+            const doc = _.cloneDeep(request.body);
+            doc.at = new Date(Date.now());
+
+            return collection.insertOne(doc)
                 .then((_) => {
                     return '';
                 })
