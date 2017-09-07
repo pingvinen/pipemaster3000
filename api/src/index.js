@@ -19,7 +19,8 @@ MongoClient.connect(mongoUrl)
 
         fastify.register(
             [
-                require('./routes/traces/traces_post')
+                require('./routes/traces/traces_post'),
+                require('./routes/traces/traces_get')
             ],
             options,
             (err) => { if (err) throw err; }
