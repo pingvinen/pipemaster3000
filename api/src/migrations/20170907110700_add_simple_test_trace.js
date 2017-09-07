@@ -8,7 +8,7 @@ module.exports.up = async function (done) {
             sender: "A",
             action: "sent",
             path: ["A"],
-            correlationId: "666",
+            correlationId: "1",
             payload: "<yay>from A</yay>",
             at: new Date("2017-09-07T11:00:00.000Z")
         },
@@ -16,7 +16,7 @@ module.exports.up = async function (done) {
             sender: "B",
             action: "received",
             path: ["A", "B"],
-            correlationId: "666",
+            correlationId: "1",
             payload: "<yay>from A</yay>",
             at: new Date("2017-09-07T11:00:00.111Z")
         },
@@ -24,7 +24,7 @@ module.exports.up = async function (done) {
             sender: "B",
             action: "sent",
             path: ["A", "B"],
-            correlationId: "666",
+            correlationId: "1",
             payload: "<yay>from A with mods by B</yay>",
             at: new Date("2017-09-07T11:00:07.123Z")
         },
@@ -32,7 +32,7 @@ module.exports.up = async function (done) {
             sender: "C",
             action: "received",
             path: ["A", "B", "C"],
-            correlationId: "666",
+            correlationId: "1",
             payload: "<yay>from A with mods by B</yay>",
             at: new Date("2017-09-07T11:00:07.666Z")
         },
