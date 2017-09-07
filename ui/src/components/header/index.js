@@ -6,7 +6,7 @@ export default class Header extends Component {
 	render() {
 		return (
 			<header class={style.header}>
-				<h1>Pipe Analyzer</h1>
+				<h1>PipeMaster 3000</h1>
 				<nav>
 					<Link activeClassName={style.active} href="/">Home</Link>
 					<Link activeClassName={style.active} href="/profile">Me</Link>
