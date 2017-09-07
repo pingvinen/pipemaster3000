@@ -23,7 +23,7 @@ module.exports = function registerTracesPost(fastify, options, next) {
                     correlationId: { type: 'string' },
                     payload: { type: 'string' }
                 },
-                require: [
+                required: [
                     'sender',
                     'action',
                     'path',
