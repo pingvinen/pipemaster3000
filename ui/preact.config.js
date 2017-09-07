@@ -16,11 +16,16 @@ export default function (config, env, helpers) {
 	// config.resolve.alias = {
 	// };
 	config.resolve.alias['root'] = path.resolve(__dirname, 'src');
+    config.resolve.alias['api'] = path.resolve(__dirname, 'src', 'services', 'api.js');
 	
-	// Configure the webpack dev server to proxy all /api/* requests to the dotnet backend
 	config.devServer = {
 		historyApiFallback: {
 			index: 'index.html'
-		}
+		},
+        proxy: [{
+		    path: '/api/**',
+            target: 'http://localhost:3000',
+            pathRewrite: {"^/api" : ""}
+        }]
 	};
 }
