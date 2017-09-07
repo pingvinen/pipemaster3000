@@ -12,6 +12,7 @@
   "dependencies": {
     "fastify": "^0.26.2",
     "lodash": "^4.17.4",
-    "mongodb": "^2.2.31"
+    "mongodb": "^2.2.31",
+    "mongodb-migrations": "^0.8.5"
   }
 }
