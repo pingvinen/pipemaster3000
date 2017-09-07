@@ -4,6 +4,7 @@ import { Router } from 'preact-router';
 import Header from './header';
 import Home from '../routes/home';
 import Profile from '../routes/profile';
+import PipelineScene from 'root/routes/pipeline';
 // import Home from 'async!./home';
 // import Profile from 'async!./profile';
 
@@ -25,6 +26,7 @@ export default class App extends Component {
 					<Home path="/" />
 					<Profile path="/profile/" user="me" />
 					<Profile path="/profile/:user" />
+					<PipelineScene path="/pipeline/:correlationId" />
 				</Router>
 			</div>
 		);

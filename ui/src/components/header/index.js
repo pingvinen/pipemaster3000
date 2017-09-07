@@ -9,6 +9,8 @@ export default class Header extends Component {
 				<h1>PipeMaster 3000</h1>
 				<nav>
 					<Link activeClassName={style.active} href="/">Home</Link>
+					<Link activeClassName={style.active} href="/pipeline/1">Pipeline 1</Link>
+					<Link activeClassName={style.active} href="/pipeline/2">Pipeline 2</Link>
 					<Link activeClassName={style.active} href="/profile">Me</Link>
 					<Link activeClassName={style.active} href="/profile/john">John</Link>
 				</nav>
