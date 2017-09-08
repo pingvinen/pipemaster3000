@@ -1,8 +1,11 @@
 const fastify = require('fastify')();
 const {MongoClient} = require('mongodb');
 const migrator = require('./migrator');
+const authPreHandlerRegistration = require('./auth/jwtValidationPreHandler');
+const conf = require('./conf');
 
-const mongoUrl = process.env.MONGO_URL || "mongodb://localhost:27017/PipeMaster3000";
+const mongoUrl = process.env.MONGO_URL || conf.defaultMongoUrl;
+const secret = process.env.TOKEN_SECRET || conf.defaultSecret;
 
 const run = async () => {
     await migrator.runMigrations(mongoUrl);
@@ -12,6 +15,8 @@ const run = async () => {
             const options = {
                 db
             };
+
+            authPreHandlerRegistration(fastify, secret);
 
             fastify.get('/', (request, reply) => {
                 reply.send({ hello: 'world', at: new Date() });
