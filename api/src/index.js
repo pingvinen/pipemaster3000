@@ -6,6 +6,7 @@ const conf = require('./conf');
 
 const mongoUrl = process.env.MONGO_URL || conf.defaultMongoUrl;
 const secret = process.env.TOKEN_SECRET || conf.defaultSecret;
+const tokenValidationFunction = process.env.TOKEN_VALIDATION_FUNCTION || conf.defaultTokenValidationFunction;
 
 const run = async () => {
     await migrator.runMigrations(mongoUrl);
@@ -16,7 +17,7 @@ const run = async () => {
                 db
             };
 
-            authPreHandlerRegistration(fastify, secret);
+            authPreHandlerRegistration(fastify, secret, tokenValidationFunction);
 
             fastify.get('/', (request, reply) => {
                 reply.send({ hello: 'world', at: new Date() });
