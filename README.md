@@ -11,6 +11,20 @@ Each component in your pipeline must send a request when it receives data and wh
 The system consists of a UI and an API, both of which are running in the generated Docker container.
 
 
+## Database
+
+The API requires a [MongoDB](https://mongodb.com) instance.
+
+By default it will connect to `mongodb://localhost:27017/PipeMaster3000`, where `PipeMaster3000` is the database name.
+
+It currently uses 2 collections:
+
+1. `traces`
+2. `_migrations`
+
+You can provide your own connection string via the `MONGO_URL` environment variable.
+
+
 ## Authentication
 
 The API requires a valid [JWT](https://jwt.io/) to be passed in via the `Authorization` header like so `Authorization: Bearer <token>`.
