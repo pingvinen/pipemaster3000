@@ -25,27 +25,28 @@ export default class PipelineScene extends Component {
         };
     }
 
-    async getTraces(correlationId) {
-        const response = await api.get(`/api/traces/${correlationId}`);
-
-        this.setState({
-            traces: response.items,
-            selected: {
-                component: '',
-                received: '',
-                sent: ''
-            }
-        });
+    getTraces(correlationId) {
+        api.get(`/api/traces/${correlationId}`)
+            .then((response) => {
+                console.log(response);
+                this.setState({
+                    traces: response.items,
+                    selected: {
+                        component: '',
+                        received: '',
+                        sent: ''
+                    }
+                });
+            });
     }
 
-    async componentDidMount() {
-        await this.getTraces(this.props.correlationId);
+    componentDidMount() {
+        this.getTraces(this.props.correlationId);
     }
 
     async componentWillReceiveProps(nextProps) {
         if (nextProps.correlationId !== this.props.correlationId) {
-            await this.getTraces(nextProps.correlationId);
-
+            this.getTraces(nextProps.correlationId);
         }
     }
 

@@ -17,7 +17,7 @@ const run = async () => {
                 db
             };
 
-            authPreHandlerRegistration(fastify, secret, tokenValidationFunction);
+            //authPreHandlerRegistration(fastify, secret, tokenValidationFunction);
 
             fastify.get('/', (request, reply) => {
                 reply.send({ hello: 'world', at: new Date() });

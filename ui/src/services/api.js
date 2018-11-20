@@ -1,9 +1,9 @@
 /**
  * @param {Response} response
- * @returns {Promise} Resolves with an object like { response: .., json: ... }
+ * @returns {Promise} Resolves with the parsed body
  */
-async function getJsonFromResponse(response) {
-    return await response.json();
+function getJsonFromResponse(response) {
+    return response.json();
 }
 
 /**
@@ -12,8 +12,10 @@ async function getJsonFromResponse(response) {
  * @returns {Promise} Resolves with the parsed response body
  */
 async function get(url) {
-    const response = await fetch(url, { method: 'GET' });
-    return await getJsonFromResponse(response);
+    fetch(url, { method: 'GET' })
+        .then(response => {
+            return getJsonFromResponse(response);
+        });
 }
 
 export default {

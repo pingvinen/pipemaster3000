@@ -72,3 +72,15 @@ function isValid(decodedToken) {
 ```
 
 You would take the function body - i.e. `return false;` and base64 encode, giving you `cmV0dXJuIGZhbHNlOw==`.
+
+
+## Running it
+
+```
+docker run\
+    -p 8080:8080\
+    -p 3000:3000\
+    -e MONGO_URL=mongodb://localhost:27017/PipeMaster3000
+    -e TOKEN_SECRET=karmachameleon
+    pingvinen/pipemaster3000
+```
